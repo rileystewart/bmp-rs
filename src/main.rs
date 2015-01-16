@@ -1,7 +1,7 @@
 mod bitmap;
 
 fn main() {
-	let bimp = bitmap::Bmp { bmp: Vec::new() };
-	let veccy = bimp.new("test.txt".to_string(), 20, 20);
-    println!("{}", veccy[0][0]);
+	let bimp = bitmap::Bmp {bmp: bitmap::new("test.txt", 20, 20),
+							head: bitmap::getheader(20u32, 20u32) };
+    println!("{}", bimp.bmp[5][5]);
 }
