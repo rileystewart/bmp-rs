@@ -1,38 +1,5 @@
 use std::io::File;
 
-pub fn getheader(w: u32, ht: u32) -> String {
-	let filesize = 26 + w*ht;
-	println!("filesize {}", filesize);
-	let mut h: String = String::new();
-	h.push('B');
-	h.push('M');
-	h.push(from_u32(filesize));
-	h.push(from_u32(filesize >> 8));
-	h.push(from_u32(filesize >> 16));
-	h.push(from_u32(filesize >> 24));
-	h.push(from_u32(0));
-	h.push(from_u32(0));
-	h.push(from_u32(0));
-	h.push(from_u32(0));
-	h.push(from_u32(26));
-	h.push(from_u32(0));
-	h.push(from_u32(0));
-	h.push(from_u32(0));
-	h.push(from_u32(12));
-	h.push(from_u32(0));
-	h.push(from_u32(0));
-	h.push(from_u32(0));
-	h.push(from_u32(w));
-	h.push(from_u32(0));
-	h.push(from_u32(ht));
-	h.push(from_u32(0));
-	h.push(from_u32(1));
-	h.push(from_u32(0));
-	h.push(from_u32(8));
-	h.push(from_u32(0));
-	h
-}
-
 fn from_u32(u: u32) -> char {
 	let v: u8 = (u%256) as u8;
 	v as char
@@ -40,10 +7,9 @@ fn from_u32(u: u32) -> char {
 
 pub struct Bmp {
 	pub bmp: Vec<Vec<u32>>,
-	pub head: String
 }
 impl Bmp { 
-	pub fn write(&self, oname: &str, w: u32) {
+	pub fn write(&self, oname: &str, w: u32, h: u32) {
 		let mut f = File::create(&Path::new(oname));
 		let mut pad: String = String::new();
 		if w%4 != 0 {
@@ -51,7 +17,17 @@ impl Bmp {
 				pad.push(0 as char);
 			}
 		}
-		f.write_str(self.head.as_slice());
+		f.write_u8(0x42);
+		f.write_u8(0x4D);
+		f.write_le_u32(26 + (w+w%4)*h);
+		f.write_le_u16(2);
+		f.write_le_u16(2);
+		f.write_le_u32(26);
+		f.write_le_u32(12);
+		f.write_le_u16((w + w%4) as u16);
+		f.write_le_u16(h as u16);
+		f.write_le_u16(1);
+		f.write_le_u16(8);
 		for i in range (0, self.bmp.len()) {
 			for j in range (0, self.bmp[i].len()) {
 				f.write_u8(self.bmp[i][j] as u8);
