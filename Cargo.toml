@@ -6,3 +6,6 @@ authors = ["riley"]
 
 [dependencies]
 time = "*"
+
+[dependencies.nalgebra]
+git = "https://github.com/sebcrozet/nalgebra"

@@ -1,3 +1,5 @@
+extern crate nalgebra;
+
 use std::io::File;
 use std::rand;
 
@@ -90,17 +92,27 @@ pub fn new(fname: &str, width: u32, height: u32) -> Vec<Vec<u32>> {
 }
 
 pub fn new_rand(width: u32, height: u32) -> Vec<Vec<u32>> {
+	
+	let matty: nalgebra::Vec3<f64> = nalgebra::Vec3::new(rand_f(), rand_f(), rand_f());
+	let redmat = nalgebra::Vec3::new(255.0, 0.0, 0.0);
+	let greenmat = nalgebra::Vec3::new(0.0, 255.0, 0.0);
+	let bluemat = nalgebra::Vec3::new(0.0, 0.0, 255.0);
+	
 	let mut rbmp: Vec<Vec<u32>> = Vec::new();
 	for i in range(0, height) {
 		rbmp.push(Vec::new());
 		for j in range (0, width) {
-			let red = rand::random::<u32>()%20 + 120;
-			let green = rand::random::<u32>()%20 + 90;
-			let blue = rand::random::<u32>()%20 + 120;
+			let red = nalgebra::dot(&matty, &redmat) as u32;
+			let green = nalgebra::dot(&matty, &greenmat) as u32;
+			let blue = nalgebra::dot(&matty, &bluemat) as u32;
 			let color: u32 = red*65536 + green*256 + blue;
-			rbmp[i as uint].push(color);
+			rbmp[i as usize].push(color);
 		}
 	}
 	rbmp
 }
-		
+
+fn rand_f() -> f64 {
+	let a = rand::random::<f64>();
+	a - (a as u32) as f64
+}
