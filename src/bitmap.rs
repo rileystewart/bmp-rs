@@ -98,7 +98,6 @@ pub fn new_rand(width: u32, height: u32) -> Vec<Vec<u32>> {
 			let green = rand::random::<u32>()%20 + 90;
 			let blue = rand::random::<u32>()%20 + 120;
 			let color: u32 = red*65536 + green*256 + blue;
-			println!("color: {}", color);
 			rbmp[i as uint].push(color);
 		}
 	}
