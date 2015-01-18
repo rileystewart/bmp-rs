@@ -3,3 +3,6 @@
 name = "messin"
 version = "0.0.1"
 authors = ["riley"]
+
+[dependencies]
+time = "*"
