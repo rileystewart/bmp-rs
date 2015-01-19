@@ -2,6 +2,8 @@ extern crate nalgebra;
 
 use std::io::File;
 use std::rand;
+use std::num;
+use std::f64::consts;
 
 fn from_u32(u: u32) -> char {
 	let v: u8 = (u%256) as u8;
@@ -102,14 +104,18 @@ pub fn new_rand(width: u32, height: u32) -> Vec<Vec<u32>> {
 	for i in range(0, height) {
 		rbmp.push(Vec::new());
 		for j in range (0, width) {
-			let red = nalgebra::dot(&matty, &redmat) as u32;
-			let green = nalgebra::dot(&matty, &greenmat) as u32;
-			let blue = nalgebra::dot(&matty, &bluemat) as u32;
+			let red = (logistic((i + j) as f64 / height as f64) * nalgebra::dot(&matty, &redmat)) as u32;
+			let green = (logistic((i + j) as f64 / height as f64) * nalgebra::dot(&matty, &greenmat)) as u32;
+			let blue = (logistic((i + j) as f64 / height as f64) * nalgebra::dot(&matty, &bluemat)) as u32;
 			let color: u32 = red*65536 + green*256 + blue;
 			rbmp[i as usize].push(color);
 		}
 	}
 	rbmp
+}
+
+fn logistic(a: f64) -> f64 {
+	1.0 / (1.0 + num::Float::powf(consts::E, a))
 }
 
 fn rand_f() -> f64 {
