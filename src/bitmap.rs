@@ -104,9 +104,9 @@ pub fn new_rand(width: u32, height: u32) -> Vec<Vec<u32>> {
 	for i in range(0, height) {
 		rbmp.push(Vec::new());
 		for j in range (0, width) {
-			let red = (mod_f(i, j, height, width) * nalgebra::dot(&matty, &redmat)) as u32;
-			let green = (mod_f(i, j, height, width) * nalgebra::dot(&matty, &greenmat)) as u32;
-			let blue = (mod_f(i, j, height, width) * nalgebra::dot(&matty, &bluemat)) as u32;
+			let red = (10.0 * mod_sin(i, i, height, width) * nalgebra::dot(&matty, &redmat)) as u32;
+			let green = (20.0 * mod_cos(i, i, height, width) * nalgebra::dot(&matty, &greenmat)) as u32;
+			let blue = (30.0 * mod_sin(i, i, height, width) * nalgebra::dot(&matty, &bluemat)) as u32;
 			let color: u32 = red*65536 + green*256 + blue;
 			rbmp[i as usize].push(color);
 		}
@@ -114,8 +114,12 @@ pub fn new_rand(width: u32, height: u32) -> Vec<Vec<u32>> {
 	rbmp
 }
 
-fn mod_f(x: u32, y: u32, h: u32, w: u32) -> f64 {
-	(x + y) as f64 / (h + w) as f64
+fn mod_sin(x: u32, y: u32, h: u32, w: u32) -> f64 {
+	num::Float::abs(num::Float::sin((x + y) as f64 / (w + h) as f64 ))
+}
+
+fn mod_cos(x: u32, y: u32, h: u32, w: u32) -> f64 {
+	num::Float::abs(num::Float::cos((x + y) as f64 / (w + h) as f64))
 }
 
 fn logistic(a: f64) -> f64 {

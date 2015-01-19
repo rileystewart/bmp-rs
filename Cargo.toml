@@ -9,3 +9,6 @@ time = "*"
 
 [dependencies.nalgebra]
 git = "https://github.com/sebcrozet/nalgebra"
+
+[dependencies.glutin]
+git = "https://github.com/tomaka/glutin.git"

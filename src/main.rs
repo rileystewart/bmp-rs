@@ -6,7 +6,7 @@ mod bitmap;
 
 fn main() {
 	let i = precise_time_ns();
-	let width = 800;
+	let width = 600;
 	let height = 600;
 	//let bimp = bitmap::Bmp { bmp: bitmap::new("test.txt", 18, 18) };
 	let bimp = bitmap::Bmp { bmp: bitmap::new_rand(width, height) };
