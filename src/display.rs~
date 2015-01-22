@@ -4,7 +4,7 @@ use self::sdl2::video::{WindowPos, Window, OPENGL};
 use self::sdl2::event::{Event, poll_event};
 use self::sdl2::surface::{Surface};
 
-pub fn show (width: u32, height: u32) {
+pub fn show (width: usize, height: usize) {
 	sdl2::init(sdl2::INIT_VIDEO);
 
 	let window = match sdl2::video::Window::new("image", WindowPos::PosCentered, WindowPos::PosCentered, width as isize, height as isize, OPENGL) {
